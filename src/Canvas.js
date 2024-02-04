@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 function Canvas(props) {
 
     console.log(props);
     const [currentColor, setCurrentColor] = useState('#FFFFFF');
     const [done, setDone] = useState(false);    
+
+    useEffect(() => {
+        setDone(false);
+      }, [props]); 
 
     const pickColor = (event) => {
         const circle = event.target;
@@ -26,7 +32,6 @@ function Canvas(props) {
         circle.setAttribute("stroke-width", "3"); // Set border width
       }
 
-
       const dropColor = (event) => {
         var band = event.target;
         band.setAttribute("fill", currentColor);
@@ -40,7 +45,11 @@ function Canvas(props) {
         if (correct) {
             setDone(true);
             console.log('correct');
-        }
+        } else setDone(false);
+    }
+
+    const sendMessageToParent = () => {
+        props.sendMessageToParent();
     }
 
   return (
@@ -48,9 +57,7 @@ function Canvas(props) {
       <header className="Canvas-header">
         <div style={{margin: '5px'}}>
             <label>{props.country.name}</label>
-            { done && 
-                <i style={{marginLeft: '5px'}} className="fas fa-thumbs-up"></i> 
-            }
+            { done && <FontAwesomeIcon style={{marginLeft: '5px'}} icon={faThumbsUp} /> }
         </div>
         <div className="Canvas-flag">
             <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
@@ -58,6 +65,8 @@ function Canvas(props) {
             <rect y="66.7" width="300" height="66.7" fill="#FFFFFF" onClick={dropColor}/>
             <rect y="133.4" width="300" height="66.6" fill="#FFFFFF" onClick={dropColor}/>
             </svg>
+
+            { done && <button onClick={sendMessageToParent}><FontAwesomeIcon icon={faArrowRight} /></button> }
         </div>
         <div className="Canvas-flag-colours">
         <svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
