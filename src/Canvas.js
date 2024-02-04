@@ -38,10 +38,13 @@ function Canvas(props) {
 
         // Validate
         var siblings = Array.from(band.parentNode.children);
-        console.log(siblings);
         var colors = siblings.map(sibling => sibling.getAttribute("fill"));
         const allMatch = colors.map((element, index) => element === props.country.correctColors[index]);
         const correct = allMatch.every(Boolean);
+
+        console.log('correct  Colors ', props.country.correctColors);
+        console.log('selected Colors ', colors);
+
         if (correct) {
             setDone(true);
             console.log('correct');
@@ -70,9 +73,12 @@ function Canvas(props) {
         </div>
         <div className="Canvas-flag-colours">
         <svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
-            <circle id="firstCircle" cx="50" cy="50" r="40" fill={props.country.randomizedColors[0]} onClick={pickColor} />
+            {props.country.randomizedColors.map((item, index) => (
+                <circle cx={(index+1) * 50} cy="50" r="40" key={index} data={item} fill={item} onClick={pickColor}/>
+            ))}
+            {/* <circle id="firstCircle" cx="50" cy="50" r="40" fill={props.country.randomizedColors[0]}/>
             <circle id="secondCircle" cx="150" cy="50" r="40" fill={props.country.randomizedColors[1]} onClick={pickColor} />
-            <circle id="thirdCircle" cx="250" cy="50" r="40" fill={props.country.randomizedColors[2]} onClick={pickColor} /> 
+            <circle id="thirdCircle" cx="250" cy="50" r="40" fill={props.country.randomizedColors[2]} onClick={pickColor} />  */}
         </svg>
 
         </div>
