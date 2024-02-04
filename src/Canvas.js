@@ -1,10 +1,10 @@
-import { isVisible } from '@testing-library/user-event/dist/utils';
 import React, { useState } from 'react';
 
-function Canvas(country) {
+function Canvas(props) {
 
-    const [currentColor, setCurrentColor] = useState('#000000');
-    const [showthumbsUp, setShowthumbsUp] = useState(false);
+    console.log(props);
+    const [currentColor, setCurrentColor] = useState('#FFFFFF');
+    const [done, setDone] = useState(false);
 
     const pickColor = (event) => {
         const circle = event.target;
@@ -32,14 +32,13 @@ function Canvas(country) {
         band.setAttribute("fill", currentColor);
 
         // Validate
-        const correctColors = ['#FFFFFF', '#0052A5', '#D52B1E']
         var siblings = Array.from(band.parentNode.children);
         console.log(siblings);
         var colors = siblings.map(sibling => sibling.getAttribute("fill"));
-        const allMatch = colors.map((element, index) => element === correctColors[index]);
+        const allMatch = colors.map((element, index) => element === props.country.correctColors[index]);
         const correct = allMatch.every(Boolean);
         if (correct) {
-            setShowthumbsUp(true);
+            setDone(true);
             console.log('correct');
         }
     }
@@ -48,8 +47,10 @@ function Canvas(country) {
     <div className="Canvas">
       <header className="Canvas-header">
         <div style={{margin: '5px'}}>
-            <label>Russia</label>
-            { showthumbsUp && <i style={{marginLeft: '5px'}} id="correct" className="fas fa-thumbs-up"></i> }
+            <label>{props.country.name}</label>
+            { done && 
+                <i style={{marginLeft: '5px'}} className="fas fa-thumbs-up"></i> 
+            }
         </div>
         <div className="Canvas-flag">
             <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
