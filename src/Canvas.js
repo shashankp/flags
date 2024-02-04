@@ -1,8 +1,10 @@
+import { isVisible } from '@testing-library/user-event/dist/utils';
 import React, { useState } from 'react';
 
 function Canvas(country) {
 
     const [currentColor, setCurrentColor] = useState('#000000');
+    const [showthumbsUp, setShowthumbsUp] = useState(false);
 
     const pickColor = (event) => {
         const circle = event.target;
@@ -27,12 +29,28 @@ function Canvas(country) {
 
       const dropColor = (event) => {
         var band = event.target;
-        band.setAttribute("fill", currentColor)
+        band.setAttribute("fill", currentColor);
+
+        // Validate
+        const correctColors = ['#FFFFFF', '#0052A5', '#D52B1E']
+        var siblings = Array.from(band.parentNode.children);
+        console.log(siblings);
+        var colors = siblings.map(sibling => sibling.getAttribute("fill"));
+        const allMatch = colors.map((element, index) => element === correctColors[index]);
+        const correct = allMatch.every(Boolean);
+        if (correct) {
+            setShowthumbsUp(true);
+            console.log('correct');
+        }
     }
 
   return (
     <div className="Canvas">
       <header className="Canvas-header">
+        <div style={{margin: '5px'}}>
+            <label>Russia</label>
+            { showthumbsUp && <i style={{marginLeft: '5px'}} id="correct" className="fas fa-thumbs-up"></i> }
+        </div>
         <div className="Canvas-flag">
             <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
             <rect width="300" height="66.7" fill="#FFFFFF" onClick={dropColor}/>
@@ -48,6 +66,7 @@ function Canvas(country) {
         </svg>
 
         </div>
+        
       </header>
     </div>
   );
