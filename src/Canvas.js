@@ -4,7 +4,7 @@ function Canvas(props) {
 
     console.log(props);
     const [currentColor, setCurrentColor] = useState('#FFFFFF');
-    const [done, setDone] = useState(false);
+    const [done, setDone] = useState(false);    
 
     const pickColor = (event) => {
         const circle = event.target;
@@ -61,9 +61,9 @@ function Canvas(props) {
         </div>
         <div className="Canvas-flag-colours">
         <svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
-            <circle id="whiteCircle" cx="50" cy="50" r="40" fill="#FFFFFF" onClick={pickColor} />
-            <circle id="blueCircle" cx="150" cy="50" r="40" fill="#0052A5" onClick={pickColor} />
-            <circle id="redCircle" cx="250" cy="50" r="40" fill="#D52B1E" onClick={pickColor} /> 
+            <circle id="firstCircle" cx="50" cy="50" r="40" fill={props.country.randomizedColors[0]} onClick={pickColor} />
+            <circle id="secondCircle" cx="150" cy="50" r="40" fill={props.country.randomizedColors[1]} onClick={pickColor} />
+            <circle id="thirdCircle" cx="250" cy="50" r="40" fill={props.country.randomizedColors[2]} onClick={pickColor} /> 
         </svg>
 
         </div>
